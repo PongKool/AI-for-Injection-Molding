@@ -78,7 +78,7 @@ while True:
         if pred_weight > 50:
             best_input, best_pred = suggest_inputs((inj_pressure, melt_temp, cooling_time, pack_pressure), target=50.0)
             if best_input is not None:
-                print(f" 💡 Suggestion: Try InjectionPressure={best_input[0]}, MeltTemp={best_input[1]}, "
+                print(f" 💡 OverSpec! Suggestion: Try InjectionPressure={best_input[0]}, MeltTemp={best_input[1]}, "
                       f"CoolingTime={best_input[2]}, PackingPressure={best_input[3]}")
                 print(f"    → This gives ~{best_pred:.2f} g (below 50)")
             else:

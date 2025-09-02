@@ -2,6 +2,12 @@
 # Manual prediction loop with auto-suggestion
 # If predicted Part Weight > 50 g, search for new inputs that yield < 50 g
 
+
+# Disable GPU for simplicity (optional)
+
+# import os
+# os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+
 import numpy as np
 import tensorflow as tf
 from tensorflow import keras

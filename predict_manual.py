@@ -39,7 +39,7 @@ def suggest_inputs(current_inputs, target=50.0):
     inj_range = np.arange(inj_pressure-50, inj_pressure+1, 10)
     pack_range = np.arange(pack_pressure-50, pack_pressure+1, 10)
     temp_range = [melt_temp]  # keep fixed for simplicity
-    cool_range = [cooling_time]
+    cool_range = [cooling_time]  # keep fixed for simplicity
 
     best = None
     best_pred = None
@@ -92,8 +92,8 @@ while True:
         if pred_weight > 50:
             best_input, best_pred = suggest_inputs((inj_pressure, melt_temp, cooling_time, pack_pressure), target=50.0)
             if best_input is not None:
-                print(f" 💡 OverSpec! Suggestion: Try InjectionPressure={best_input[0]}, MeltTemp={best_input[1]}, "
-                      f"CoolingTime={best_input[2]}, PackingPressure={best_input[3]}")
+                print(f" 💡 OverSpec! Suggestion: Using the same melt temp ({best_input[1]}) and same cooling time ({best_input[2]}), try InjectionPressure={best_input[0]}, "
+                      f"PackingPressure={best_input[3]}")
                 print(f"    → This gives ~{best_pred:.2f} g (below 50)")
             else:
                 print(" ❌ No suitable lower-weight parameter set found nearby.")

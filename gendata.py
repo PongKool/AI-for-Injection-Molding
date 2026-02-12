@@ -31,5 +31,8 @@ df = pd.DataFrame({
 })
 
 # Save to CSV
-df.to_csv("injection_data.csv", index=False)
-print("Dataset saved to injection_data.csv")
+fname = "injection_data_for_training.csv"
+# fname = "injection_data_new.csv"
+
+df.to_csv(fname, index=False)
+print(f"Dataset saved to {fname}")

@@ -1,0 +1,86 @@
+1. This project is for showcasing using machine learning (ML) in digital twin for injection molding process.
+2. Injection molding needs the quick method to inspect injected parts quality so we can adjust processing conditions in real time.
+3. We use ML to predict target, the part weight (PredictedPartWeight) from 4 parameter input-- InjectionPressure, MeltTemp, CoolingTime, PackingPressure.
+4. We need these experimental data-- InjectionPressure, MeltTemp, CoolingTime, PackingPressure, and our target, ActualPartWeight so ML can learn fron them.
+5. Files involved: gendata.py, injection_data_for_training.csv, injection_data_new.csv, injection_data_new4columns.csv, train_model.py, predict_manual.py, predict_batch.py
+
+5.1 gendata.py 
+Used: for generating 200 dataset for model training or for input data file. 
+This file is made only just for testing. In real life, this file will not be used as we should get the dataset from the result of running injection experiment.
+Command: python3 gendata.py
+Output: injection_data_for_training.csv or injection_data_new.csv. 
+
+5.2 injection_data_for_training.csv
+Used: A text data file used for ML training. 
+We should get this file from running injection experiment. There are 5 columns. The first line labels: InjectionPressure, MeltTemp, CoolingTime, PackingPressure, PartWeight. 
+The 2nd line and so on are numeric data accordingly, separated by comma.
+
+To display its 1st 10 rows, use linux command: "head -10 injection_data_for_training.csv | column -t -s," 
+
+InjectionPressure  MeltTemp  CoolingTime  PackingPressure  PartWeight
+872                240       22           527              51.384174327085994
+822                247       24           525              51.09214728462585
+868                231       19           454              50.93271063847025
+863                245       24           532              51.867874413400614
+783                254       24           464              50.5114465261271
+757                249       24           574              51.162084239850664
+789                233       19           468              50.80867957305012
+804                256       15           541              50.43031962421844
+876                239       23           540              51.30653776141101
+
+5.3 injection_data_new.csv and injection_data_new4columns.csv
+Used: The new input data files needed to predict the target. 
+This will be used as input for predict_batch.py. The injection_data_new.csv has 5 columns just like injection_data_for_training.csv. It could be exactly the same, if created with cp command or it can be generated from gendatafortraining.py.
+The injection_data_new4columns.csv has only the first 4 columns refering 4 parameters. Use the first to compare with actual part weight while use the second when actual part weight is not available.
+
+5.4 train_model.py
+Used: for ML training and export 2 model files (injection_model.keras, scaler.pkl) 
+These 2 model files will be used in the prediction step. Must have a file, injection_data_for_training.csv in the same folder.
+Command: python3 train_model.py
+Input: injection_data_for_training.csv
+Output: injection_model.keras and scaler.pkl
+
+5.5 predict_manual.py
+Used: to predict part weight by entering InjectionPressure MeltTemp CoolingTime PackingPressure, separated by a space. Stop when entering "x". 
+If part weight is over 50, suggest new injection pressure and packing pressure while keeping the same melt temp and cooling time.
+Input: trained model files -- injection_model.keras, scaler.pkl
+Output: predicted part weight, also new suggested parameters to part weight lower than 50, in case the predicted part weight showed over 50. 
+
+5.6 predict_batch.py
+Used: to predict part weight by using input data file (injection_data_new.csv or injection_data_new4columns.csv) and model files (injection_model.keras, scaler.pkl). 
+The injection_data_new.csv could be the same as the old, injection_data.csv or be a new set of data file with 5 columns. The injection_data_new4columns.csv can also be used if the part weight is not available i.e. it has only 4 columns. 
+The 5 column input file willl also show mean abosolute % error and %prediction error in the console output and add the %error column in the output file batch_predictions.csv. Must have all these files in the same folder.
+Input: injection_data_new.csv or injection_data_new4columns.csv, and injection_model.keras, scaler.pkl
+Output: batch_predictions.csv 
+Command: python3 predict_batch.py
+
+
+✅ Model and scaler loaded successfully.
+📂 Reading input file: injection_data_new.csv
+📄 File detected with 5+ columns: prediction with actual part weight.
+📊 Average prediction error: 5.25%
+💾 Results saved to batch_predictions.csv
+
+Preview:
+   InjectionPressure  MeltTemp  CoolingTime  PackingPressure  PartWeight  PredictedPartWeight  %Error
+0                872       240           22              527   51.384174            49.470001    3.73
+1                822       247           24              525   51.092147            48.049999    5.96
+2                868       231           19              454   50.932711            54.500000   -7.00
+3                863       245           24              532   51.867874            50.730000    2.19
+4                783       254           24              464   50.511447            55.000000   -8.89
+5                757       249           24              574   51.162084            54.590000   -6.70
+6                789       233           19              468   50.808680            51.610001   -1.58
+7                804       256           15              541   50.430320            52.279999   -3.67
+8                876       239           23              540   51.306538            51.860001   -1.08
+9                777       239           15              578   51.329774            54.279999   -5.75
+
+
+
+6. Workflow
+- Step 1: Run gendata.py to generate injection_data_for_training.csv (only for training purpose)
+- Step 2: Run train_model.py to generate model files injection_model.keras and scaler.pkl
+- Step 3: Run predict_manual.py to manually enter parameters and get predicted part weight
+- Step 4: Run gendata.py to generate injection_data_new.csv (only for prediction purpose)
+- Step 5: Run predict_batch.py to get batch predictions from input data file
+
+NOTE: See details in chatai chat: Diffusion Dialysis Limits

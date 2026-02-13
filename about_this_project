@@ -44,7 +44,12 @@ Output: injection_model.keras and scaler.pkl
 Used: to predict part weight by entering InjectionPressure MeltTemp CoolingTime PackingPressure, separated by a space. Stop when entering "x". 
 If part weight is over 50, suggest new injection pressure and packing pressure while keeping the same melt temp and cooling time.
 Input: trained model files -- injection_model.keras, scaler.pkl
-Output: predicted part weight, also new suggested parameters to part weight lower than 50, in case the predicted part weight showed over 50. 
+Output: predicted part weight, also new suggested parameters to make part weight lower than 50, in case the predicted part weight showed over 50.
+
+Enter InjectionPressure MeltTemp CoolingTime PackingPressure (or 'x' to quit): 800 250 20 600
+ 👉 Predicted Part Weight: 50.22 g
+ 💡 OverSpec! Suggestion: Using the same melt temp (250.0) and same cooling time (20.0), try InjectionPressure=750.0, PackingPressure=550.0
+    → This gives ~49.53 g (below 50)
 
 5.6 predict_batch.py
 Used: to predict part weight by using input data file (injection_data_new.csv or injection_data_new4columns.csv) and model files (injection_model.keras, scaler.pkl). 
@@ -77,10 +82,10 @@ Preview:
 
 
 6. Workflow
-- Step 1: Run gendata.py to generate injection_data_for_training.csv (only for training purpose)
-- Step 2: Run train_model.py to generate model files injection_model.keras and scaler.pkl
-- Step 3: Run predict_manual.py to manually enter parameters and get predicted part weight
-- Step 4: Run gendata.py to generate injection_data_new.csv (only for prediction purpose)
-- Step 5: Run predict_batch.py to get batch predictions from input data file
+- Step 1: Run python3 gendata.py to generate injection_data_for_training.csv (only for training purpose)
+- Step 2: Run python3 train_model.py to generate model files injection_model.keras and scaler.pkl
+- Step 3: Run python3 predict_manual.py to manually enter parameters and get predicted part weight
+- Step 4: Run python3 gendata.py to generate injection_data_new.csv (only for prediction purpose)
+- Step 5: Run python3 predict_batch.py to get batch predictions from input data file
 
 NOTE: See details in chatai chat: Diffusion Dialysis Limits

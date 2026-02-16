@@ -1,1 +1,1 @@
-This is AI showcase project.
+This is AI showcase project. Read about_this_project.txt for the long descriptions.

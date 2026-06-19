@@ -29,8 +29,8 @@ InjectionPressure  MeltTemp  CoolingTime  PackingPressure  PartWeight
 876                239       23           540              51.30653776141101
 
 5.3 injection_data_new.csv and injection_data_new4columns.csv
-Used: The new input data files needed to predict the target. 
-This will be used as input for predict_batch.py. The injection_data_new.csv has 5 columns just like injection_data_for_training.csv. It could be exactly the same, if created with cp command or it can be generated from gendatafortraining.py.
+Used: for new input that users are expected to predict the target. 
+This is own user data, being used as input for batch prediction in predict_batch.py. The injection_data_new.csv has 5 columns just like injection_data_for_training.csv. It could be exactly the same, if created with cp command or it can be generated from gendatafortraining.py.
 The injection_data_new4columns.csv has only the first 4 columns refering 4 parameters. Use the first to compare with actual part weight while use the second when actual part weight is not available.
 
 5.4 train_model.py
